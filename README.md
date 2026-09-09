@@ -1,58 +1,63 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# GreenCycle
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Vivero digital: cada usuario planta y cuida sus propios árboles, que crecen y se deterioran según el tiempo, hasta poder cosecharlos por monedas. Con esas monedas se pueden comprar ítems en una tienda (aceleradores, riego automático, semillas especiales) para mejorar el cuidado de los árboles.
 
-## About Laravel
+## Alcance actual (Sprint 1)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Modelo de datos completo: usuarios, tipos de semilla, árboles, ítems, inventarios y efectos activos.
+- API inicial de árboles: listar, consultar detalle, plantar y eliminar un árbol.
+- Validación de entrada en el servidor con Form Requests.
+- La estrategia de autenticación (Sanctum, por token) y autorización ya está documentada, pero todavía no está programada en código — queda para la siguiente entrega.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Para los siguientes sprints queda: autenticación real, reglas de deterioro y cooldown, tienda, inventario funcional, cosecha, y la interfaz de usuario.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Requisitos
 
-## Learning Laravel
+- Herd (trae PHP 8.5 y Composer incluidos)
+- Node.js y npm
+- Base de datos (PostgreSQL)
+- El repositorio clonado
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+No se necesita nada más instalado aparte — Herd se encarga de servir el proyecto automáticamente.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Instalación
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone https://github.com/Zzreik/GreenCycle.git
+cd GreenCycle
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Con eso, Herd ya debería estar sirviendo el sitio (revisa la app de Herd para confirmar que el proyecto aparece activo).
 
-## Contributing
+## Cómo probar
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Como todavía no hay interfaz construida, las pruebas de este sprint se hacen así:
 
-## Code of Conduct
+- **Endpoints de la API** (`GET`, `POST`, `DELETE` de árboles): con Thunder Client, mandando las peticiones directo a `http://greencycle.test/api/trees` (y variantes).
+- **Nada se prueba desde el navegador todavía**, salvo los `GET` (listar y consultar un árbol), que sí se pueden abrir directo en el navegador.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## API
 
-## Security Vulnerabilities
+Endpoints disponibles en este sprint:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Método | Ruta | Descripción |
+|---|---|---|
+| GET | /api/trees | Listar árboles (por ahora filtrados manualmente con `?user_id=` como marcador temporal, mientras no hay autenticación) |
+| GET | /api/trees/{tree} | Consultar un árbol específico |
+| POST | /api/trees | Plantar un árbol nuevo |
+| DELETE | /api/trees/{tree} | Eliminar un árbol |
 
-## License
+## Credenciales demo
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+No aplica todavía — el registro y login no están programados en este sprint, solo documentados.
+
+## Equipo
+
+- Sebastian Vasquez Navarro
+- Maria Jesus Salas Jimenez
+
+Usamos Claude como apoyo para resolver dudas de Laravel/PHP y revisar la lógica del código mientras lo construíamos.
