@@ -23,7 +23,10 @@ class TreeResource extends JsonResource
             'health' => $this->health,
             'progress' => $this->progress,
             'status' => $this->status,
-            'next_care_at' => $this->next_care_at,
+            'last_cared_at' => $this->last_cared_at?->toISOString(),
+            'next_care_at'  => $this->next_care_at?->toISOString(),
+            'last_decay_at' => $this->last_decay_at?->toISOString(),
+            'harvested_at'  => $this->harvested_at?->toISOString(),
             'created_at' => $this->created_at?->toISOString(),
         ];
     }

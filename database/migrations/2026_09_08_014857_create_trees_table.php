@@ -13,14 +13,17 @@ return new class extends Migration
     {
         Schema::create('trees', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('seed_type_id');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('seed_type_id')->constrained();
             $table->string('name')->nullable();
             $table->integer('level')->default(0);
             $table->integer('health')->default(100);
             $table->integer('progress')->default(0);
             $table->enum('status', ['ACTIVE', 'MATURE', 'DEAD', 'HARVESTED'])->default('ACTIVE');
+            $table->timestamp('last_cared_at')->nullable();
             $table->timestamp('next_care_at')->nullable();
+            $table->timestamp('last_decay_at')->nullable();
+            $table->timestamp('harvested_at')->nullable();
             $table->timestamps();
         });
     }
